@@ -4,6 +4,14 @@ const Data = mongoose.Schema({
     type: String,
     required: true,
   },
+  itemID: {
+    type: String,
+    required: true,
+  },
+  storeID: {
+    type: String,
+    required: true,
+  },
   expiry: {
     type: String,
   },

@@ -1,4 +1,4 @@
-const { getItemData } = require("../controller/ItemController");
+const { getItemData, addItemData } = require("../controller/ItemController");
 const SignInController = require("../controller/SignInController");
 const { getStoreData } = require("../controller/StoreController");
 const authenticate = require("../middleware/authenticate");
@@ -10,6 +10,7 @@ const initroute = (app) => {
   app.post("/signin", SignInController().SignIn);
   app.get("/getStoreData", getStoreData);
   app.get("/getItemData", getItemData);
+  app.post("/addItemData", addItemData);
 };
 
 module.exports = initroute;

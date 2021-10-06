@@ -1,34 +1,17 @@
-import {useState,useEffect} from 'react'
-import QrReader from 'react-qr-reader'
-function App() {
-  const [scanData, setScanData] = useState([]);
-  const [flag, setFlag] = useState(false);
-  const handleError = (e)=>{
-  }
-  const handleScan = (data)=>{
-    if(flag && data){
-      setFlag(false);
-      setScanData([...scanData,data]);
-    }
-  }
-  useEffect(() => {
-    console.log(scanData)
-    return () => {
-      
-    }
-  }, [scanData])
-  return(
-    <div>
-        {flag?<QrReader
-          delay={100}
-          onError={handleError}
-          onScan={handleScan}
-          style={{ width: '50%' }}
-        />:<button onClick={()=>{setFlag(true)}}>Scan</button>}
-      </div>
-  )
-  
-  
-}
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import NotFound from "./components/not-found";
+import Store from "./pages/Store";
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={() => <h1>Home</h1>} />
+        <Route exact path="/store/:id" component={Store} />
+        <Route component={NotFound} />
+      </Switch>
+    </BrowserRouter>
+  );
+};
 
 export default App;
