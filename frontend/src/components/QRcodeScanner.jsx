@@ -1,33 +1,39 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import QrReader from "react-qr-reader";
-function QRCodeScanner({ storeID }) {
+function QRCodeScanner({ storeID, setItemData }) {
   const [scanData, setScanData] = useState([]);
-  const [itemData, setItemData] = useState({});
+
   const [flag, setFlag] = useState(false);
-  const handleError = (e) => {};
+  const handleError = (e) => {
+    if (e) {
+      window.alert("Some error occured");
+    }
+  };
   const handleScan = async (data) => {
     if (flag && data) {
       console.log("data read", data);
       setFlag(false);
       setScanData([...scanData, data]);
-      const res_item_data = await axios.get(
-        `${process.env.REACT_APP_BACKEND_HOST}/getItemData`,
-        {
-          headers: {
-            item_id: data,
-            store_id: storeID,
-          },
-        }
-      );
-      console.log(res_item_data.data.itemData);
-      setItemData(res_item_data.data.itemData);
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BACKEND_HOST}/item/getItemData`,
+          {
+            headers: {
+              item_id: data,
+              store_id: storeID,
+            },
+          }
+        );
+        console.log(res.data.itemData);
+        setItemData(res.data.itemData);
+      } catch (error) {
+        window.alert("Some error occured");
+        console.log(error);
+      }
     }
   };
-  useEffect(() => {
-    console.log(itemData);
-    return () => {};
-  }, [itemData]);
+
   return (
     <div>
       {flag ? (
@@ -46,8 +52,6 @@ function QRCodeScanner({ storeID }) {
           Scan
         </button>
       )}
-      <h1> {itemData?.name}</h1>
-      <h1> {itemData ? "Price " + itemData.price : ""}</h1>
     </div>
   );
 }
