@@ -5,9 +5,9 @@ const authenticate = require("../middleware/authenticate");
 const middleware = require("../middleware/middleware");
 
 const initroute = (app) => {
-  app.get("/", SignInController().Home);
-  app.post("/signup", SignInController().SignUp);
-  app.post("/signin", SignInController().SignIn);
+  app.get("/user/", SignInController().Home);
+  app.post("/user/signup", SignInController().SignUp);
+  app.post("/user/signin", SignInController().SignIn);
   app.get("/store/getStoreData", getStoreData);
   app.post("/store/addStore", addStore);
   app.get("/item/getItemData", getItemData);
