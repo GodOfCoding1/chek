@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 
 const getStoreData = async (req, res) => {
   const { store_id } = req.headers;
-  console.log("store_id,req.headers", store_id, req.headers);
   try {
     const storeData = await StoreDB.findOne({ store_id });
     if (!storeData)

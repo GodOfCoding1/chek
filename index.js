@@ -8,6 +8,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const path = require("path");
+const payementRoutes = require("./routes/paymentRoutes");
 
 const connection = () =>
   mongoose
@@ -37,6 +38,7 @@ app.use("*", function (req, res, next) {
   if (
     !req.baseUrl.includes("/item/") &&
     !req.baseUrl.includes("/store/") &&
+    !req.baseUrl.includes("/payment/") &&
     !req.baseUrl.includes("/user/")
   ) {
     res.sendFile(path.join(__dirname, "build", "index.html"));
@@ -44,5 +46,8 @@ app.use("*", function (req, res, next) {
     next();
   }
 });
+//routes
 require("./routes/web")(app);
+app.use("/payment", payementRoutes);
+
 app.listen(PORT, (req, res) => console.log(`Server is running on ${PORT}`));
