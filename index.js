@@ -24,11 +24,15 @@ const corsOption = {
   origin: true,
 };
 
+app.use(express.static(path.join(__dirname, "build")));
+app.use("/public", express.static(path.resolve(__dirname, "public")));
+
 app.use(cors(corsOption));
 app.use(cookieParser());
 app.use(express.json());
 //logger
 app.use(morgan("tiny"));
+
 app.use("*", function (req, res, next) {
   if (
     !req.baseUrl.includes("/item/") &&
