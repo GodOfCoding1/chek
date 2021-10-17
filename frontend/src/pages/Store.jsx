@@ -2,7 +2,20 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CartCard from "../components/cartCard";
 import ItemCard from "../components/itemCard";
-import QRCodeScanner from "../components/QRcodeScanner";
+import NavBar from "../components/nav-bar";
+import BarCodeHandler from "../components/BarCodeHandler";
+import BarCodeScanner from "../components/BarcodeScanner";
+import { Typography } from "@mui/material";
+
+const StoreName = ({ name }) => {
+  return (
+    <div style={{ textAlign: "center", marginTop: 20 }}>
+      <Typography variant="h5">
+        <b>{name}</b>
+      </Typography>
+    </div>
+  );
+};
 
 const Store = ({
   match: {
@@ -10,13 +23,16 @@ const Store = ({
   },
 }) => {
   const [storeData, setStoreData] = useState({});
-  const [itemData, setItemData] = useState({});
   const [allItems, setAllitems] = useState([]);
 
   const handleScannedItem = (newItem) => {
-    console.log(newItem);
-    setAllitems([...allItems, newItem]);
-    setItemData(newItem);
+    const namesOfItems = allItems.map((item) => item.name);
+    if (!namesOfItems.includes(newItem.name))
+      setAllitems([...allItems, newItem]);
+  };
+
+  const deleteItem = (id) => {
+    setAllitems(allItems.filter((item, index) => index !== id));
   };
 
   const getStoreDetails = async () => {
@@ -40,11 +56,24 @@ const Store = ({
   useEffect(() => {
     getStoreDetails();
   }, []);
+  useEffect(() => {
+    console.log(allItems);
+  }, [allItems]);
   return (
     <>
-      <div>{storeData.store_name}</div>
-      <QRCodeScanner setItemData={handleScannedItem} storeID={id} />
-      <ItemCard itemData={itemData} />
+      <NavBar />
+      <StoreName name={storeData.store_name} />
+      <BarCodeHandler setItemData={handleScannedItem} storeID={id} />
+      {allItems.length > 0
+        ? allItems.map((item, index) => (
+            <ItemCard
+              key={index}
+              index={index}
+              itemData={item}
+              deleteItem={deleteItem}
+            />
+          ))
+        : ""}
       <CartCard items={allItems} />
     </>
   );

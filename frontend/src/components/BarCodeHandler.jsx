@@ -1,9 +1,9 @@
+import { Button, Paper } from "@mui/material";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import QrReader from "react-qr-reader";
-function QRCodeScanner({ storeID, setItemData }) {
-  const [scanData, setScanData] = useState([]);
+import BarCodeScanner from "./BarcodeScanner";
 
+function BarCodeHandler({ storeID, setItemData }) {
   const [flag, setFlag] = useState(false);
   const handleError = (e) => {
     if (e) {
@@ -14,7 +14,6 @@ function QRCodeScanner({ storeID, setItemData }) {
     if (flag && data) {
       console.log("data read", data);
       setFlag(false);
-      setScanData([...scanData, data]);
       try {
         const res = await axios.get(
           `${process.env.REACT_APP_BACKEND_HOST}/item/getItemData`,
@@ -35,25 +34,17 @@ function QRCodeScanner({ storeID, setItemData }) {
   };
 
   return (
-    <div>
-      {flag ? (
-        <QrReader
-          delay={100}
-          onError={handleError}
-          onScan={handleScan}
-          style={{ width: "50%" }}
-        />
-      ) : (
-        <button
-          onClick={() => {
-            setFlag(true);
-          }}
-        >
-          Scan
-        </button>
-      )}
+    <div
+      style={{
+        margin: 20,
+        textAlign: "center",
+      }}
+    >
+      <Paper style={{ padding: 5 }}>
+        <BarCodeScanner getItemID={handleScan} />
+      </Paper>
     </div>
   );
 }
 
-export default QRCodeScanner;
+export default BarCodeHandler;
