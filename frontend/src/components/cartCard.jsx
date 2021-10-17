@@ -6,20 +6,21 @@ const CartCard = ({ items }) => {
   const [itemScaned, setItemScaned] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   useEffect(() => {
+    console.log(items);
     if (items.length > 1) {
       setItemScaned(true);
       setTotalPrice(
         items.reduce((a, b) => {
           if (typeof a === "number") {
-            return Number(a) + Number(b.price);
+            return Number(a) + Number(b.price) * b.quantity;
           }
-          return Number(a.price) + Number(b.price);
+          return Number(a.price) * a.quantity + Number(b.price) * b.quantity;
         })
       );
     }
     if (items.length === 1) {
       setItemScaned(true);
-      setTotalPrice(Number(items[0].price));
+      setTotalPrice(Number(items[0].price) * items[0].quantity);
     }
     if (items.length < 1) {
       setItemScaned(false);
@@ -37,7 +38,12 @@ const CartCard = ({ items }) => {
               justifyContent: "space-between",
             }}
           >
-            <div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
               <Typography variant="h6">Total: {totalPrice}</Typography>
             </div>
             <PayBill amount={totalPrice} />

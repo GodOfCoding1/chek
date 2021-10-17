@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import Quagga from "quagga";
 import { useState } from "react";
 import { width } from "@mui/system";
@@ -70,11 +70,18 @@ class Scanner extends Component {
   }
 }
 
-const BarCodeScanner = ({ getItemID }) => {
+const BarCodeScanner = ({ getItemID, items }) => {
+  const [IDs, setIDs] = useState([]);
   const _onDetected = (e) => {
-    console.log(e);
-    getItemID(e.codeResult.code);
+    if (!IDs.includes(e.codeResult.code)) {
+      setIDs([...IDs, e.codeResult.code]);
+      getItemID(e.codeResult.code);
+    }
   };
+  useEffect(() => {
+    const idOfItems = items.map((item) => item.barID);
+    setIDs(idOfItems);
+  }, [items]);
 
   return <Scanner onDetected={_onDetected} />;
 };

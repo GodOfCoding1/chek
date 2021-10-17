@@ -3,17 +3,16 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import BarCodeScanner from "./BarcodeScanner";
 
-function BarCodeHandler({ storeID, setItemData }) {
-  const [flag, setFlag] = useState(false);
+function BarCodeHandler({ items, storeID, setItemData }) {
   const handleError = (e) => {
     if (e) {
       window.alert("Some error occured");
     }
   };
   const handleScan = async (data) => {
-    if (flag && data) {
+    if (data) {
       console.log("data read", data);
-      setFlag(false);
+
       try {
         const res = await axios.get(
           `${process.env.REACT_APP_BACKEND_HOST}/item/getItemData`,
@@ -24,8 +23,8 @@ function BarCodeHandler({ storeID, setItemData }) {
             },
           }
         );
-        console.log(res.data.itemData);
-        setItemData(res.data.itemData);
+        console.log({ ...res.data.itemData, barID: data });
+        setItemData({ ...res.data.itemData, barID: data });
       } catch (error) {
         window.alert("Some error occured");
         console.log(error);
@@ -41,7 +40,7 @@ function BarCodeHandler({ storeID, setItemData }) {
       }}
     >
       <Paper style={{ padding: 5 }}>
-        <BarCodeScanner getItemID={handleScan} />
+        <BarCodeScanner items={items} getItemID={handleScan} />
       </Paper>
     </div>
   );

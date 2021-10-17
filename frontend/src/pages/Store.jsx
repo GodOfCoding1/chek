@@ -27,8 +27,19 @@ const Store = ({
 
   const handleScannedItem = (newItem) => {
     const namesOfItems = allItems.map((item) => item.name);
-    if (!namesOfItems.includes(newItem.name))
-      setAllitems([...allItems, newItem]);
+    if (!namesOfItems.includes(newItem.name)) {
+      setAllitems([...allItems, { ...newItem, quantity: 1 }]);
+    }
+  };
+
+  const handleQuantityChange = (newValue, index) => {
+    if (newValue === 0) {
+      deleteItem(index);
+      return;
+    }
+    let newAllItems = allItems;
+    newAllItems[index].quantity = newValue;
+    setAllitems(newAllItems);
   };
 
   const deleteItem = (id) => {
@@ -56,20 +67,23 @@ const Store = ({
   useEffect(() => {
     getStoreDetails();
   }, []);
-  useEffect(() => {
-    console.log(allItems);
-  }, [allItems]);
+
   return (
     <>
       <NavBar />
       <StoreName name={storeData.store_name} />
-      <BarCodeHandler setItemData={handleScannedItem} storeID={id} />
+      <BarCodeHandler
+        items={allItems}
+        setItemData={handleScannedItem}
+        storeID={id}
+      />
       {allItems.length > 0
         ? allItems.map((item, index) => (
             <ItemCard
               key={index}
               index={index}
               itemData={item}
+              handleQuantityChange={handleQuantityChange}
               deleteItem={deleteItem}
             />
           ))
