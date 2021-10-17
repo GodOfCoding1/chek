@@ -2,8 +2,13 @@ const ItemDB = require("../model/Item");
 
 const getItemData = async (req, res) => {
   const { item_id, store_id } = req.headers;
+
   try {
-    const itemData = await ItemDB.findOne({ store_id, item_id });
+    const itemData = await ItemDB.findOne({
+      storeID: store_id,
+      itemID: item_id,
+    });
+
     if (!itemData)
       return res.send({
         status: 404,
