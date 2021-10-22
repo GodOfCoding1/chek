@@ -8,7 +8,6 @@ const App = () => {
   return (
     <BrowserRouter>
       <Switch>
-        {/* <CssBaseline /> */}
         <Route exact path="/" component={() => <h1>Home</h1>} />
         <Route exact path="/barcode" component={BarCodeScanner} />
         <Route exact path="/storeHome/:id" component={Store} />

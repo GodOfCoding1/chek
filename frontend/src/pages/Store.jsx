@@ -5,7 +5,7 @@ import ItemCard from "../components/itemCard";
 import NavBar from "../components/nav-bar";
 import BarCodeHandler from "../components/BarCodeHandler";
 import BarCodeScanner from "../components/BarcodeScanner";
-import { Typography } from "@mui/material";
+import { Container, CssBaseline, Typography } from "@mui/material";
 
 const StoreName = ({ name }) => {
   return (
@@ -37,7 +37,7 @@ const Store = ({
       deleteItem(index);
       return;
     }
-    let newAllItems = allItems;
+    let newAllItems = [...allItems];
     newAllItems[index].quantity = newValue;
     setAllitems(newAllItems);
   };
@@ -71,24 +71,27 @@ const Store = ({
   return (
     <>
       <NavBar />
-      <StoreName name={storeData.store_name} />
-      <BarCodeHandler
-        items={allItems}
-        setItemData={handleScannedItem}
-        storeID={id}
-      />
-      {allItems.length > 0
-        ? allItems.map((item, index) => (
-            <ItemCard
-              key={index}
-              index={index}
-              itemData={item}
-              handleQuantityChange={handleQuantityChange}
-              deleteItem={deleteItem}
-            />
-          ))
-        : ""}
-      <CartCard items={allItems} />
+      <Container style={{ padding: 0 }}>
+        <CssBaseline />
+        <StoreName name={storeData.store_name} />
+        <BarCodeHandler
+          items={allItems}
+          setItemData={handleScannedItem}
+          storeID={id}
+        />
+        {allItems.length > 0
+          ? allItems.map((item, index) => (
+              <ItemCard
+                key={index}
+                index={index}
+                itemData={item}
+                handleQuantityChange={handleQuantityChange}
+                deleteItem={deleteItem}
+              />
+            ))
+          : ""}
+        <CartCard items={allItems} />
+      </Container>
     </>
   );
 };
