@@ -18,9 +18,9 @@ const getStoreData = async (req, res) => {
 };
 const addStore = async (req, res) => {
   try {
-    const { store_id, store_name, store_email, password } = req.body;
-    if (!store_id || !store_name || !store_email || !password)
-      return res.send({ success: false, message: "Enter All Details" });
+    const { store_name, store_email, store_address, password } = req.body;
+    if (!store_name || !store_address || !store_email || !password)
+      return res.send({ success: false, message: "Enter all Details" });
 
     const passwordHased = await bcrypt.hash(password, 10);
 
@@ -28,18 +28,25 @@ const addStore = async (req, res) => {
     if (x)
       return res.send({ success: false, message: "Email Already exists!" });
 
+    const totalNumberOfStores = await StoreDB.count();
+    const store_id = totalNumberOfStores + 1;
     const store = await new StoreDB({
       store_id,
       store_name,
       store_email,
+      store_address,
       password: passwordHased,
     });
 
     await store
       .save()
       .then((store) => {
-        console.log(`Saved Successfully`, store);
-        return res.send({ success: true, storeData: store, message: "Saved" });
+        console.log(`Successfully Registered`, store);
+        return res.send({
+          success: true,
+          storeData: store,
+          message: "Successfully Registered",
+        });
       })
       .catch((err) => {
         console.log(err);
