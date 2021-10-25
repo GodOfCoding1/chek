@@ -1,11 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import CartCard from "../components/cartCard";
-import ItemCard from "../components/itemCard";
+import CartCard from "../components/storeClientPage/cartCard";
 import NavBar from "../components/nav-bar";
-import BarCodeHandler from "../components/BarCodeHandler";
-import BarCodeScanner from "../components/BarcodeScanner";
+import BarCodeHandler from "../components/storeClientPage/BarCodeHandler";
 import { Container, CssBaseline, Typography } from "@mui/material";
+import PageWrapper from "./PageWrapper";
 
 const StoreName = ({ name }) => {
   return (
@@ -70,28 +69,25 @@ const Store = ({
 
   return (
     <>
-      <NavBar />
-      <Container style={{ padding: 0 }}>
-        <CssBaseline />
-        <StoreName name={storeData.store_name} />
-        <BarCodeHandler
-          items={allItems}
-          setItemData={handleScannedItem}
-          storeID={id}
-        />
-        {allItems.length > 0
-          ? allItems.map((item, index) => (
-              <ItemCard
-                key={index}
-                index={index}
-                itemData={item}
-                handleQuantityChange={handleQuantityChange}
-                deleteItem={deleteItem}
-              />
-            ))
-          : ""}
-        <CartCard items={allItems} />
-      </Container>
+      {" "}
+      <PageWrapper>
+        <NavBar />
+        <Container style={{ padding: 0 }}>
+          <CssBaseline />
+          <StoreName name={storeData.store_name} />
+          <BarCodeHandler
+            items={allItems}
+            setItemData={handleScannedItem}
+            storeID={id}
+          />
+
+          <CartCard
+            handleQuantityChange={handleQuantityChange}
+            deleteItem={deleteItem}
+            items={allItems}
+          />
+        </Container>
+      </PageWrapper>
     </>
   );
 };

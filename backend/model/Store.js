@@ -1,12 +1,16 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const Data = mongoose.Schema({
-  store_id: { type: String, required: true },
+  store_id: { type: String, required: true, unique: true },
   store_name: {
     type: String,
     required: true,
   },
   store_email: {
+    type: String,
+    required: true,
+  },
+  store_address: {
     type: String,
     required: true,
   },
