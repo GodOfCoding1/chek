@@ -1,6 +1,5 @@
-const express = require("express");
 const bcrypt = require("bcrypt");
-const User = require("../model/User");
+const StoreDB = require("../model/Store");
 
 function SignInController() {
   return {
@@ -39,11 +38,11 @@ function SignInController() {
       const { email, password } = req.body;
       if (!email || !password)
         return res.status(400).json({ message: "Enter Credentials" });
-      const user = await User.findOne({ email: email });
+      const user = await StoreDB.findOne({ store_email: email });
       const p = await bcrypt.compare(password, user.password);
-      if (!p) return res.status(400).json({ message: "Invalid Credentials!" });
       if (!user)
         return res.status(400).json({ message: "Invalid Credentials!" });
+      if (!p) return res.status(400).json({ message: "Invalid Credentials!" });
       else {
         const token = await user.generateAuthToken();
         console.log(token);

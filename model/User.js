@@ -25,6 +25,7 @@ const Data = mongoose.Schema({
 
 Data.methods.generateAuthToken = async function () {
   try {
+    // console.log("secret is", process.env.ACCESS_TOKEN_SECRET);
     let token = jwt.sign({ _id: this._id }, process.env.ACCESS_TOKEN_SECRET);
     this.tokens = this.tokens.concat({ token });
     await this.save();
