@@ -33,7 +33,7 @@ const Register = () => {
       );
 
       window.alert(res.data.message);
-      if (res.success) {
+      if (res.data.success) {
         window.location.href = "/login";
       }
     } catch (err) {
@@ -50,7 +50,7 @@ const Register = () => {
           justify={"center"}
           bg={useColorModeValue("gray.50", "gray.800")}
         >
-          <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+          <Stack spacing={8} mx={"auto"} maxW={"xl"} py={12} px={6}>
             <Stack align={"center"}>
               <Heading fontSize={"4xl"}>Sign Up Your Store</Heading>
               <Text fontSize={"lg"} color={"gray.600"}>

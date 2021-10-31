@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const path = require("path");
 const payementRoutes = require("./routes/paymentRoutes");
+const { JWTAuthMiddleware } = require("./middleware/JWT_Auth");
 
 const connection = () =>
   mongoose
@@ -46,6 +47,8 @@ app.use("*", function (req, res, next) {
     next();
   }
 });
+app.use("/", JWTAuthMiddleware);
+
 //routes
 require("./routes/web")(app);
 app.use("/payment", payementRoutes);

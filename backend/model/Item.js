@@ -17,6 +17,10 @@ const Data = mongoose.Schema({
   },
   price: {
     type: String,
+    required: true,
+  },
+  quantity: {
+    type: Number,
   },
   img_url: {
     type: String,

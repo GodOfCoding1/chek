@@ -33,7 +33,10 @@ const Data = mongoose.Schema({
 
 Data.methods.generateAccessToken = async function () {
   try {
-    let token = jwt.sign({ _id: this._id }, process.env.ACCESS_TOKEN_SECRET);
+    let token = jwt.sign(
+      { _id: this._id, store_id: this.store_id, store_name: this.store_name },
+      process.env.ACCESS_TOKEN_SECRET
+    );
     this.tokens = this.tokens.concat({ token });
     await this.save();
     return token;

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Text } from "@chakra-ui/react";
+import { Container, Icon, Text } from "@chakra-ui/react";
 import PayBill from "./payBill";
 import ItemCard from "./itemCard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { MdShoppingCart } from "react-icons/md";
+
 const CartCard = ({ items, handleQuantityChange, deleteItem }) => {
   const [itemScaned, setItemScaned] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -56,21 +57,24 @@ const CartCard = ({ items, handleQuantityChange, deleteItem }) => {
   return (
     <div>
       {itemScaned ? (
-        <div
+        <Container
+          borderRadius={5}
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             padding: 20,
             paddingTop: 0,
+            marginBottom: 20,
             background: "white",
           }}
         >
-          <ShoppingCartIcon
+          <Icon
+            as={MdShoppingCart}
+            my={4}
             style={{
               fontSize: 40,
-              marginTop: 20,
-              marginBottom: 20,
+
               color: "grey",
             }}
           />
@@ -87,7 +91,7 @@ const CartCard = ({ items, handleQuantityChange, deleteItem }) => {
               ))
             : ""}
           <TotalCard />
-        </div>
+        </Container>
       ) : (
         ""
       )}

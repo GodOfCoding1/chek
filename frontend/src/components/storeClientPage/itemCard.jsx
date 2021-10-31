@@ -1,15 +1,20 @@
-import { IconButton, Paper, Typography } from "@mui/material";
-import { Box } from "@chakra-ui/react";
-import DeleteIcon from "@mui/icons-material/Delete";
-import CounterInput from "react-bootstrap-counter";
-
-const ItemCard = ({ itemData, index, deleteItem, handleQuantityChange }) => {
+import {
+  Box,
+  Text,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  Container,
+} from "@chakra-ui/react";
+const ItemCard = ({ itemData, index, handleQuantityChange }) => {
   const handleQuantity = (newValue) => {
     handleQuantityChange(newValue, index);
   };
   return (
     <>
-      <Box w={"100%"} backgroundColor={"white"} py={20}>
+      <Box w={"100%"} backgroundColor={"white"} py={5}>
         <div
           style={{
             display: "flex",
@@ -25,25 +30,32 @@ const ItemCard = ({ itemData, index, deleteItem, handleQuantityChange }) => {
             }}
           >
             <div style={{ marginLeft: 10 }}>
-              <Typography variant="h6">
+              <Text variant="h6">
                 <b>{itemData.name}</b>
-              </Typography>
+              </Text>
 
-              <Typography variant="body2">Price ₹ {itemData.price}</Typography>
+              <Text variant="body2">Price ₹ {itemData.price}</Text>
             </div>
           </div>
           <div>
-            <div style={{ width: "115px", marginInline: 5 }}>
-              <CounterInput
+            <Container width={100}>
+              <NumberInput
+                size="sm"
                 onChange={handleQuantity}
                 value={itemData.quantity}
-              />
-            </div>
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </Container>
           </div>
           <div>
-            <Typography variant="h6" style={{ textWrap: "none" }}>
+            <Text variant="h6" style={{ paddingInline: 15, textWrap: "none" }}>
               ₹{itemData.quantity * itemData.price}
-            </Typography>
+            </Text>
           </div>
         </div>
       </Box>{" "}

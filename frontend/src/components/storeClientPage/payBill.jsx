@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "@mui/material";
 import axios from "axios";
+import { Button } from "@chakra-ui/react";
 
 function loadScript(src) {
   return new Promise((resolve) => {
@@ -66,14 +66,13 @@ function PayBill({ amount }) {
 
   return (
     <Button
-      variant="contained"
+      colorScheme="teal"
       style={{ borderRadius: 5 }}
       onClick={() => {
         if (window.confirm("Are you sure you want to check out?")) {
           displayRazorpay();
         }
       }}
-      aria-label="view"
     >
       CheckOut
     </Button>

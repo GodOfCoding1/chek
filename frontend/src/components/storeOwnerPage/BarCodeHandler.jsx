@@ -1,8 +1,7 @@
-import axios from "axios";
 import { Box } from "@chakra-ui/react";
 import BarCodeScanner from "./BarcodeScanner";
 
-function BarCodeHandler({ items, storeID, setItemData }) {
+function BarCodeHandler({ items, setItemData }) {
   const handleError = (e) => {
     if (e) {
       window.alert("Some error occured");
@@ -13,17 +12,7 @@ function BarCodeHandler({ items, storeID, setItemData }) {
       console.log("data read", data);
 
       try {
-        const res = await axios.get(
-          `${process.env.REACT_APP_BACKEND_HOST}/item/getItemData`,
-          {
-            headers: {
-              item_id: data,
-              store_id: storeID,
-            },
-          }
-        );
-        console.log({ ...res.data.itemData, barID: data });
-        setItemData({ ...res.data.itemData, barID: data });
+        setItemData({ barID: data });
       } catch (error) {
         window.alert("Some error occured");
         console.log(error);

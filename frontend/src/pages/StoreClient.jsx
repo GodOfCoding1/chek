@@ -1,22 +1,22 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CartCard from "../components/storeClientPage/cartCard";
-import NavBar from "../components/nav-bar";
 import BarCodeHandler from "../components/storeClientPage/BarCodeHandler";
-import { Container, CssBaseline, Typography } from "@mui/material";
+import { Container, Text } from "@chakra-ui/react";
 import PageWrapper from "./PageWrapper";
+import NavBar from "../components/nav-bar";
 
 const StoreName = ({ name }) => {
   return (
     <div style={{ textAlign: "center", marginTop: 20 }}>
-      <Typography variant="h5">
+      <Text fontSize={"large"}>
         <b>{name}</b>
-      </Typography>
+      </Text>
     </div>
   );
 };
 
-const Store = ({
+const StoreClient = ({
   match: {
     params: { id },
   },
@@ -32,7 +32,7 @@ const Store = ({
   };
 
   const handleQuantityChange = (newValue, index) => {
-    if (newValue === 0) {
+    if (newValue === 0 || newValue === "0") {
       deleteItem(index);
       return;
     }
@@ -69,27 +69,23 @@ const Store = ({
 
   return (
     <>
-      {" "}
-      <PageWrapper>
-        <NavBar />
-        <Container style={{ padding: 0 }}>
-          <CssBaseline />
-          <StoreName name={storeData.store_name} />
-          <BarCodeHandler
-            items={allItems}
-            setItemData={handleScannedItem}
-            storeID={id}
-          />
+      <NavBar />
+      <Container style={{ padding: 0 }}>
+        <StoreName name={storeData.store_name} />
+        <BarCodeHandler
+          items={allItems}
+          setItemData={handleScannedItem}
+          storeID={id}
+        />
 
-          <CartCard
-            handleQuantityChange={handleQuantityChange}
-            deleteItem={deleteItem}
-            items={allItems}
-          />
-        </Container>
-      </PageWrapper>
+        <CartCard
+          handleQuantityChange={handleQuantityChange}
+          deleteItem={deleteItem}
+          items={allItems}
+        />
+      </Container>
     </>
   );
 };
 
-export default Store;
+export default StoreClient;
