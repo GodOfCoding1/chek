@@ -13,7 +13,7 @@ class Scanner extends Component {
         },
         locator: {
           halfSample: true,
-          patchSize: "large", // x-small, small, medium, large, x-large
+          patchSize: "medium", // x-small, small, medium, large, x-large
           debug: {
             showCanvas: true,
             showPatches: false,
@@ -31,7 +31,7 @@ class Scanner extends Component {
         },
         numOfWorkers: 4,
         decoder: {
-          readers: ["code_128_reader"],
+          readers: ["upc_reader"],
           debug: {
             drawBoundingBox: true,
             showFrequency: true,
@@ -72,7 +72,10 @@ class Scanner extends Component {
 const BarCodeScanner = ({ getItemID, items }) => {
   const [IDs, setIDs] = useState([]);
   const _onDetected = (e) => {
+    console.log(e.codeResult.code);
+
     if (!IDs.includes(e.codeResult.code)) {
+      window.alert("sacned", e.codeResult.code);
       setIDs([...IDs, e.codeResult.code]);
       getItemID(e.codeResult.code);
     }
