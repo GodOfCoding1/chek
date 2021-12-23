@@ -13,7 +13,7 @@ class Scanner extends Component {
         },
         locator: {
           halfSample: true,
-          patchSize: "medium", // x-small, small, medium, large, x-large
+          patchSize: "large", // x-small, small, medium, large, x-large
           debug: {
             showCanvas: true,
             showPatches: false,
